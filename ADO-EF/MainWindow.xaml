@@ -1,0 +1,145 @@
+﻿<Window x:Class="ADO_EF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="mc"
+        Title="Mane's Club Barbershop III Inhlez" Height="800" Width="800"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid x:Name="MainGrid">
+        <Grid x:Name="MainContent" Background="#F5F5F5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                <materialDesign:PackIcon Kind="AccountCircle" Width="30" Height="30" Margin="0,0,5,0"/>
+                <Button x:Name="AccountButton" Content="Аккаунт" Click="AccountButton_Click" Background="Transparent" BorderBrush="Transparent" Foreground="Black" FontSize="14" Padding="5,0"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image Source="/Resources/mane_club_logo.png" Width="118" Height="100" Margin="0,0,0,20"/>
+                <TextBlock Text="Mane's Club Barbershop III Inhlez" FontSize="28" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Center"/>
+                <TextBlock Text="вул. Інглезі, 2" FontSize="14" Foreground="#666" HorizontalAlignment="Center" Margin="0,10,0,20"/>
+                <Button x:Name="ChooseBarberButton" Content="Вибрати співробитника" Background="#E0E0E0" Foreground="Black" Padding="20" Margin="0,0,0,15" Click="ChooseBarberButton_Click" Height="57">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="25"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="ChooseDateTimeButton" Content="Вибрати дату та час" Background="#E0E0E0" Foreground="Black" Padding="20" Margin="0,0,0,15" Click="ChooseDateTimeButton_Click" Height="62">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="25"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="ChooseServiceButton" Content="Вибрати послугу" Background="#E0E0E0" Foreground="Black" Padding="20" Margin="0,0,0,15" Click="ChooseServiceButton_Click" Height="62">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="25"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="AuthPanel" Visibility="Collapsed" Background="#FFFFFF">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="CloseAuthButton" Content="×" Click="CloseAuthButton_Click" HorizontalAlignment="Right" Margin="10" Background="Transparent" BorderBrush="Transparent" FontSize="16" Padding="5"/>
+            <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="20">
+
+                <StackPanel x:Name="LoginPanel" Visibility="Visible">
+                    <TextBlock Text="SwiftTalk" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+                    <TextBox x:Name="LoginBox" materialDesign:HintAssist.Hint="Логин" FontSize="16" Width="250" Margin="0,0,0,20"/>
+                    <PasswordBox x:Name="PasswordBox" materialDesign:HintAssist.Hint="Пароль" FontSize="16" Width="250" Margin="0,0,0,20"/>
+                    <Button x:Name="LoginButton" Content="Войти" Click="Login_Click" Width="200" Height="40"/>
+                    <Button x:Name="ToRegisterButton" Content="Регистрация" Click="ToRegister_Click" Width="200" Height="40" Margin="0,10,0,0"/>
+                </StackPanel>
+
+                <StackPanel x:Name="MethodSelectionPanel" Visibility="Collapsed" VerticalAlignment="Center" Margin="20">
+                    <TextBlock Text="Выберите метод регистрации" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                    <ComboBox x:Name="RegistrationMethodComboBox" Width="200" Margin="0,0,0,20">
+                        <ComboBoxItem Content="Email" IsSelected="True"/>
+                        <ComboBoxItem Content="Телефон (SMS)"/>
+                    </ComboBox>
+                    <Button x:Name="ProceedToMethodButton" Content="Продолжить" Click="ProceedToMethod_Click" Width="200" Height="40"/>
+                    <Button x:Name="BackToLoginFromMethodButton" Content="Назад к входу" Click="BackToLogin_Click" Width="200" Height="40" Margin="0,10,0,0"/>
+                </StackPanel>
+
+                <StackPanel x:Name="EmailPanel" Visibility="Collapsed" VerticalAlignment="Center" Margin="20">
+                    <TextBlock Text="Введите email" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                    <materialDesign:Card Padding="10" Margin="0,0,0,20">
+                        <TextBox x:Name="EmailBox" materialDesign:HintAssist.Hint="Email (example@gmail.com)" FontSize="16" Width="250"/>
+                    </materialDesign:Card>
+                    <Button x:Name="SendCodeButton" Content="Отправить код" Click="SendCode_Click" Width="200" Height="40"/>
+                    <Button x:Name="BackToMethodFromEmailButton" Content="Назад к выбору метода" Click="BackToMethodFromEmail_Click" Width="200" Height="40" Margin="0,10,0,0"/>
+                </StackPanel>
+
+                <StackPanel x:Name="PhonePanel" Visibility="Collapsed" VerticalAlignment="Center" Margin="20">
+                    <TextBlock Text="Введите номер телефона" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                    <materialDesign:Card Padding="10" Margin="0,0,0,20">
+                        <TextBox x:Name="PhoneNumberBox" materialDesign:HintAssist.Hint="Номер (+3801234567)" FontSize="16" Width="250"/>
+                    </materialDesign:Card>
+                    <Button x:Name="SendSMSCodeButton" Content="Отправить код" Click="SendSMSCode_Click" Width="200" Height="40"/>
+                    <Button x:Name="BackToMethodFromPhoneButton" Content="Назад к выбору метода" Click="BackToMethodFromPhone_Click" Width="200" Height="40" Margin="0,10,0,0"/>
+                </StackPanel>
+
+                <StackPanel x:Name="CodePanel" Visibility="Collapsed" VerticalAlignment="Center" Margin="20">
+                    <TextBlock Text="Введите код" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                        <TextBox x:Name="CodeBox1" Width="40" Height="40" FontSize="20" TextAlignment="Center" Margin="5" PreviewTextInput="CodeBox_PreviewTextInput" TextChanged="CodeBox_TextChanged"/>
+                        <TextBox x:Name="CodeBox2" Width="40" Height="40" FontSize="20" TextAlignment="Center" Margin="5" PreviewTextInput="CodeBox_PreviewTextInput" TextChanged="CodeBox_TextChanged"/>
+                        <TextBox x:Name="CodeBox3" Width="40" Height="40" FontSize="20" TextAlignment="Center" Margin="5" PreviewTextInput="CodeBox_PreviewTextInput" TextChanged="CodeBox_TextChanged"/>
+                        <TextBox x:Name="CodeBox4" Width="40" Height="40" FontSize="20" TextAlignment="Center" Margin="5" PreviewTextInput="CodeBox_PreviewTextInput" TextChanged="CodeBox_TextChanged"/>
+                        <TextBox x:Name="CodeBox5" Width="40" Height="40" FontSize="20" TextAlignment="Center" Margin="5" PreviewTextInput="CodeBox_PreviewTextInput" TextChanged="CodeBox_TextChanged"/>
+                        <TextBox x:Name="CodeBox6" Width="40" Height="40" FontSize="20" TextAlignment="Center" Margin="5" PreviewTextInput="CodeBox_PreviewTextInput" TextChanged="CodeBox_TextChanged"/>
+                    </StackPanel>
+                    <Button x:Name="VerifyCodeButton" Content="Подтвердить код" Click="VerifyCode_Click" Width="200" Height="40"/>
+                    <Button x:Name="BackToPreviousFromCodeButton" Content="Назад" Click="BackToPreviousFromCodeButton_Click" Width="200" Height="40" Margin="0,10,0,0"/>
+                </StackPanel>
+
+                <StackPanel x:Name="RegisterPanel" Visibility="Collapsed" VerticalAlignment="Center" Margin="20">
+                    <TextBlock Text="Регистрация" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                    <TextBlock Text="Подтвержденный контакт:" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                    <TextBox x:Name="ConfirmedContactBox" IsReadOnly="True" FontSize="16" Width="250" Margin="0,0,0,15"/>
+                    <TextBox x:Name="UsernameBox" materialDesign:HintAssist.Hint="Логин" FontSize="16" Width="250" Margin="0,0,0,15"/>
+                    <TextBox x:Name="NameBox" materialDesign:HintAssist.Hint="Имя" FontSize="16" Width="250" Margin="0,0,0,15"/>
+                    <TextBox x:Name="PhoneBox" materialDesign:HintAssist.Hint="Телефон" FontSize="16" Width="250" Margin="0,0,0,15"/>
+                    <PasswordBox x:Name="RegPasswordBox" materialDesign:HintAssist.Hint="Пароль" FontSize="16" Width="250" Margin="0,0,0,15"/>
+                    <PasswordBox x:Name="ConfirmPasswordBox" materialDesign:HintAssist.Hint="Подтвердите пароль" FontSize="16" Width="250" Margin="0,0,0,15"/>
+                    <Button x:Name="RegisterButton" Content="Зарегистрироваться" Click="Register_Click" Width="200" Height="40"/>
+                </StackPanel>
+
+                <StackPanel x:Name="WelcomePanel" Visibility="Collapsed" VerticalAlignment="Center" Margin="20">
+                    <TextBlock x:Name="WelcomeMessage" Text="Добро пожаловать!" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                    <Button x:Name="UpdateButton" Content="Редактировать профиль" Click="Update_Click" Width="200" Height="40" Margin="0,0,0,10"/>
+                    <Button x:Name="DeleteButton" Content="Удалить аккаунт" Click="Delete_Click" Width="200" Height="40" Margin="0,0,0,10"/>
+                    <Button x:Name="ToggleThemeButton" Content="Переключить тему" Click="ToggleTheme_Click" Width="200" Height="40" Margin="0,0,0,10"/>
+                    <Button x:Name="LogoutButton" Content="Выйти" Click="Logout_Click" Width="200" Height="40"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        
+    
+
+            <Grid x:Name="BookingPanel" Visibility="Collapsed">
+            <StackPanel VerticalAlignment="Center" Margin="20">
+                <TextBlock Text="Создать бронирование" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                <ComboBox x:Name="BarberComboBox" Width="200" Margin="0,0,0,20"/>
+                <ComboBox x:Name="ServiceComboBox" Width="200" Margin="0,0,0,20"/>
+                <DatePicker x:Name="DatePicker" Width="200" Margin="0,0,0,20" SelectedDate="{x:Static sys:DateTime.Today}"/>
+                <ComboBox x:Name="TimeComboBox" Width="200" Margin="0,0,0,20"/>
+                <Button x:Name="BookButton" Content="Забронировать" Width="200" Height="40" Margin="0,0,0,10" Click="BookButton_Click"/>
+                <Button x:Name="BackButton" Content="Назад" Width="200" Height="40" Click="BackButton_Click"/>
+            </StackPanel>
+            <ProgressBar x:Name="LoadingIndicator" IsIndeterminate="True" Visibility="Collapsed" Height="20" VerticalAlignment="Top"/>
+            
+            
+        </Grid>
+    </Grid>
+</Window>
